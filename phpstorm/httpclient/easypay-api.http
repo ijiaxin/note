@@ -1,0 +1,52 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+# @see https://www.jetbrains.com/help/phpstorm/testing-restful-web-services.html
+
+### 获取access_token
+# @no-cookie-jar
+# @no-log
+# @no-redirect
+POST http://{{host}}/oauth2/token
+Content-Type: application/json
+
+{
+  "grant_type": "{{grant_type}}",
+  "client_id": "{{client_id}}",
+  "client_secret": "{{client_secret}}"
+}
+
+> {% client.global.set("access_token",response.body.data.access_token); %}
+
+
+
+### 获取绑卡授权h5页面链接
+# @no-cookie-jar
+# @no-log
+# @no-redirect
+POST http://{{host}}/v1/agreement/auth
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "mch_id": "2",
+  "user_id": "123",
+  "user_certificate": "123123123123123",
+  "username": "111",
+  "bank_card_no": "",
+  "phone": ""
+}
+
+> {%
+ client.test("是否请求成功",function() {
+   client.assert(response.body.code === "0","请求成功");
+ });
+ %}
+
+###
+
