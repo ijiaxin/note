@@ -1,4 +1,7 @@
-```php
+```php、
+/**
+ * @link https://www.php.net/manual/zh/function.gmdate
+ */
 $format = "Y-m-d\TH:i:s\Z";
 echo date($format);
 echo "\r";
